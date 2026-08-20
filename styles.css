@@ -388,7 +388,10 @@ body[data-station="3"][data-phase="settled"] .replay-button {
   place-items: center;
   overflow: hidden;
   padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, rgba(7, 6, 4, 0.48), rgba(7, 6, 4, 0.68)),
+    url("assets/stops/mobile/stop-01-form-in-grain.png") center / cover no-repeat,
+    var(--bg);
   transition: opacity 680ms ease, visibility 680ms ease;
 }
 
@@ -398,7 +401,7 @@ body[data-station="3"][data-phase="settled"] .replay-button {
   content: "";
   background:
     radial-gradient(circle at 72% 40%, rgba(169, 104, 47, 0.18), transparent 34%),
-    linear-gradient(120deg, transparent 35%, rgba(199, 149, 70, 0.055), transparent 64%);
+    linear-gradient(120deg, rgba(7, 6, 4, 0.16) 24%, rgba(199, 149, 70, 0.055), rgba(7, 6, 4, 0.42) 76%);
 }
 
 .loader.leaving {

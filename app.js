@@ -77,7 +77,6 @@
 
   const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
   const media = new Map();
-  const objectUrls = [];
   let grainPattern = null;
   let viewport = { width: innerWidth, height: innerHeight, dpr: 1 };
   let resizeFrame = 0;
@@ -518,51 +517,28 @@
 
   async function loadImageAssets() {
     const entries = Object.entries(MEDIA.stops).filter(([key]) => key !== "resonate");
-    const responses = await Promise.all(entries.map(async ([key, source]) => {
-      const response = await fetch(source, { cache: "force-cache" });
-      if (!response.ok) throw new Error(`Asset ${source} returned ${response.status}`);
-      return { key, source, response };
-    }));
-    const totalBytes = responses.reduce((sum, item) => sum + Number(item.response.headers.get("content-length") || 0), 0);
-    let loadedBytes = 0;
     let completed = 0;
 
     const updateProgress = () => {
-      const byteProgress = totalBytes ? loadedBytes / totalBytes : completed / entries.length;
-      const progress = Math.round(clamp(byteProgress) * 100);
+      const progress = Math.round(clamp(completed / entries.length) * 100);
       loader.style.setProperty("--progress", `${progress}%`);
       loaderBar.style.width = `${progress}%`;
       loaderCount.textContent = `${String(progress).padStart(3, "0")}%`;
     };
 
-    await Promise.all(responses.map(async ({ key, response }) => {
-      let blob;
-      if (response.body?.getReader) {
-        const reader = response.body.getReader();
-        const chunks = [];
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value);
-          loadedBytes += value.byteLength;
-          updateProgress();
-        }
-        blob = new Blob(chunks, { type: response.headers.get("content-type") || "image/png" });
-      } else {
-        blob = await response.blob();
-        loadedBytes += blob.size;
-      }
-      const url = URL.createObjectURL(blob);
-      objectUrls.push(url);
+    await Promise.all(entries.map(([key, source], index) => new Promise((resolve, reject) => {
       const image = new Image();
       image.decoding = "async";
-      image.src = url;
-      await image.decode();
-      const drawable = "createImageBitmap" in window ? await createImageBitmap(image) : image;
-      media.set(key, drawable);
-      completed += 1;
-      updateProgress();
-    }));
+      image.fetchPriority = index === 0 ? "high" : "auto";
+      image.onload = () => {
+        media.set(key, image);
+        completed += 1;
+        updateProgress();
+        resolve();
+      };
+      image.onerror = () => reject(new Error(`Unable to load ${source}`));
+      image.src = source;
+    })));
     media.set("resonate", media.get("form"));
   }
 
@@ -676,8 +652,6 @@
     if (document.hidden && runtime.audioContext?.state === "running") runtime.audioContext.suspend().catch(() => {});
     if (!document.hidden && runtime.soundEnabled && runtime.audioContext?.state === "suspended") runtime.audioContext.resume().catch(() => {});
   });
-
-  addEventListener("pagehide", () => objectUrls.forEach((url) => URL.revokeObjectURL(url)), { once: true });
 
   initialize();
 })();
