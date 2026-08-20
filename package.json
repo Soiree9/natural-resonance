@@ -1,0 +1,10 @@
+{
+  "name": "natural-resonance",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "check": "node --check app.js && node --check scripts/serve.mjs && node --check scripts/check-assets.mjs && node scripts/check-assets.mjs"
+  }
+}
