@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070604">
+  <meta name="description" content="NATURAL RESONANCE — 原创自然木色半空心电吉他电影感互动展示。">
+  <meta property="og:title" content="NATURAL RESONANCE">
+  <meta property="og:description" content="Wood, air and signal — a mobile-first cinematic guitar study.">
+  <meta property="og:image" content="assets/stops/mobile/stop-01-form-in-grain.png">
+  <title>NATURAL RESONANCE</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-phase="loading" data-station="-1">
+  <div id="experience" class="experience">
+    <canvas id="stage" aria-hidden="true"></canvas>
+    <div class="surface-shade" aria-hidden="true"></div>
+
+    <header class="hud" aria-label="体验控制">
+      <a class="brand interactive" href="#experience" aria-label="返回第一章">
+        <span class="brand-mark" aria-hidden="true"><i></i></span>
+        <span>NATURAL RESONANCE</span>
+        <span aria-hidden="true">/</span>
+        <span id="brand-chapter">01</span>
+      </a>
+      <button id="sound-toggle" class="sound-toggle interactive" type="button" aria-pressed="false">
+        <span class="sound-dot" aria-hidden="true"></span>
+        SOUND — OFF
+      </button>
+    </header>
+
+    <main id="chapters" class="chapters" aria-live="off"></main>
+    <nav id="station-nav" class="station-nav" aria-label="章节导航"></nav>
+
+    <div class="experience-meta" aria-hidden="true">
+      <span id="frame-readout">STILL / 01</span>
+      <span>9:16 / CANVAS STUDY</span>
+    </div>
+
+    <div class="input-hint" aria-hidden="true">
+      <span></span>
+      SWIPE / SCROLL / ENTER
+    </div>
+
+    <button id="replay-button" class="replay-button interactive" type="button">
+      REPLAY EXPERIENCE
+    </button>
+
+    <p class="provenance">INDEPENDENT EFFECT IMPLEMENTATION</p>
+  </div>
+
+  <div id="loader" class="loader" role="dialog" aria-modal="true" aria-label="正在加载 NATURAL RESONANCE">
+    <div class="loader-top">
+      <span>NATURAL RESONANCE</span>
+      <span>ORIGINAL STUDY / 2026</span>
+    </div>
+    <div class="loader-center">
+      <p>WOOD / AIR / SIGNAL</p>
+      <div class="loader-word" aria-hidden="true" data-word="RESONANCE">RESONANCE</div>
+    </div>
+    <div class="loader-bottom">
+      <span id="loader-status">LOADING LOCAL KEYFRAMES</span>
+      <span id="loader-count">000%</span>
+    </div>
+    <div class="loader-track" aria-hidden="true"><i id="loader-bar"></i></div>
+    <button id="enter-button" class="enter-button interactive" type="button" disabled>
+      ENTER THE RESONANCE
+    </button>
+  </div>
+
+  <div id="status-live" class="sr-only" aria-live="polite"></div>
+  <noscript>
+    <div class="noscript">此体验需要 JavaScript。请启用后重新打开页面。</div>
+  </noscript>
+  <script src="app.js" defer></script>
+</body>
+</html>

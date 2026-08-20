@@ -1,0 +1,8 @@
+incoming/
+tools/
+evidence/
+node_modules/
+.playwright-cli/
+*.log
+.DS_Store
+Thumbs.db
