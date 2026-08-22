@@ -7,6 +7,7 @@ const portIndex = process.argv.indexOf("--port");
 const port = Number(portIndex >= 0 ? process.argv[portIndex + 1] : 4173);
 
 const mimeTypes = {
+  ".avif": "image/avif",
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -35,7 +36,7 @@ const server = createServer((request, response) => {
   }
 
   const extension = extname(file).toLowerCase();
-  const immutable = [".png", ".woff2"].includes(extension);
+  const immutable = [".avif", ".png", ".woff2"].includes(extension);
   response.writeHead(200, {
     "Content-Type": mimeTypes[extension] || "application/octet-stream",
     "Cache-Control": immutable ? "public, max-age=31536000, immutable" : "no-cache",
